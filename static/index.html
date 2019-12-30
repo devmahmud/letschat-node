@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <script src="/socket.io/socket.io.js" node></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="jumbotron mt-3">
+                    <h1 class="display-4">Send Message</h1>
+                    <input type="text" id="name" class="form-control" placeholder="Name">
+                    <textarea name="message" id="message" rows="2" class="form-control mt-2"
+                        placeholder="Message"></textarea>
+                    <button id="send" class="btn btn-success mt-3">Send</button>
+                </div>
+                <div id="messages"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var socket = io()
+        $(() => {
+            $('#send').click(() => {
+                var message = {
+                    name: $('#name').val(),
+                    message: $('#message').val()
+                }
+                postMessage(message)
+            })
+            getMessages()
+        })
+        socket.on('message', addMessages)
+
+        function addMessages(message) {
+            $('#messages').prepend(`<h4> ${message.name} </h4> <p>${message.message}</p>`)
+        }
+
+        function getMessages() {
+            $.get('http://localhost:5000/messages', data => {
+                data.forEach(addMessages)
+            })
+        }
+
+        function postMessage(message) {
+            $.post('http://localhost:5000/messages', message)
+        }
+    </script>
+
+</body>
+
+</html>
