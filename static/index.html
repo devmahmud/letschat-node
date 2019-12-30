@@ -51,13 +51,13 @@
         }
 
         function getMessages() {
-            $.get('http://localhost:5000/messages', data => {
+            $.get('https://letschat-node.herokuapp.com/messages', data => {
                 data.forEach(addMessages)
             })
         }
 
         function postMessage(message) {
-            $.post('http://localhost:5000/messages', message)
+            $.post('https://letschat-node.herokuapp.com/messages', message)
         }
     </script>
 
