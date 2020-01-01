@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const uri =
-  "mongodb+srv://devmahmud:mahmud12345@cluster0-8i2yl.mongodb.net/chatdb?retryWrites=true&w=majority";
+  "mongodb+srv://<username>:<password>@cluster0-8i2yl.mongodb.net/chatdb?retryWrites=true&w=majority";
 
 var Message = mongoose.model("Message", {
   name: String,
